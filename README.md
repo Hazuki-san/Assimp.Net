@@ -1,8 +1,8 @@
 ![alt text](https://bitbucket.org/Starnick/assimpnet/raw/64485416c27d84b2928ba375d7ae51c8ab24bdb7/logo.png "AssimpNet Logo")
 
-**The latest release can be downloaded via [NuGet](https://www.nuget.org/packages/AssimpNet/).**
+**The latest _official_ release can be downloaded via [NuGet](https://www.nuget.org/packages/AssimpNet/).**
 
-[![Build Status](https://dev.azure.com/nicholaswoodfield/OSS-Libraries/_apis/build/status/bitbucket/starnick/AssimpNet?branchName=master)](https://dev.azure.com/nicholaswoodfield/OSS-Libraries/_build/latest?definitionId=6&branchName=master)
+This is a fork from https://bitbucket.org/Starnick/assimpnet/ with .NET 7.0 support, a newer assimp version (batteries not included) and FBX blendshape support
 
 ## Introduction ##
 This is the official repository for **AssimpNet**, the cross-platform .NET wrapper for the Open Asset Import Library (otherwise known as [Assimp](https://github.com/assimp/assimp)), which is a 3D model import-export library. The primary motivation is for this library to power (offline) content pipelines to import and process 3D models into your game engine's internal format, although the wrapper can be used at runtime to enable your users to import custom content. Please see the Assimp website for a full list of supported formats and features. Each version of the managed wrapper tries to maintain parity with the features of the native version.
