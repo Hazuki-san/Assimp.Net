@@ -22,7 +22,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Assimp.Unmanaged;
+using static Assimp.Metadata;
 
 namespace Assimp
 {
@@ -46,6 +48,7 @@ namespace Assimp
         private List<MeshAnimationAttachment> m_meshAttachments;
         private MeshMorphingMethod m_morphMethod;
         private BoundingBox m_boundingBox;
+        private string[] m_textureCoordinateNames; // TODO: Does not copy from native
 
         /// <summary>
         /// Gets or sets the mesh name. This tends to be used
@@ -397,6 +400,14 @@ namespace Assimp
             }
         }
 
+        public string[] TextureCoordinateNames
+        {
+            get
+            {
+                return m_textureCoordinateNames;
+            }
+        }
+
         /// <summary>
         /// Constructs a new instance of the <see cref="Mesh"/> class.
         /// </summary>
@@ -448,6 +459,11 @@ namespace Assimp
             m_bones = new List<Bone>();
             m_faces = new List<Face>();
             m_meshAttachments = new List<MeshAnimationAttachment>();
+            m_textureCoordinateNames = new string[AiDefines.AI_MAX_NUMBER_OF_TEXTURECOORDS];
+            for (int i = 0; i < m_textureCoordinateNames.Length; i++)
+            {
+                m_textureCoordinateNames[i] = $"UV{i}";
+            }
         }
 
         /// <summary>
@@ -671,7 +687,7 @@ namespace Assimp
             nativeValue.NumAnimMeshes = (uint) MeshAnimationAttachmentCount;
             nativeValue.MorphMethod = m_morphMethod;
             nativeValue.AABB = m_boundingBox;
-            nativeValue.TextureCoordsNames = IntPtr.Zero;
+            nativeValue.TextureCoordNames = IntPtr.Zero;
 
             if(nativeValue.NumVertices > 0)
             {
@@ -737,7 +753,30 @@ namespace Assimp
 
             //Attachment meshes
             if(nativeValue.NumAnimMeshes > 0)
-                nativeValue.AnimMeshes = MemoryHelper.ToNativeArray<MeshAnimationAttachment, AiAnimMesh>(m_meshAttachments.ToArray());
+                nativeValue.AnimMeshes = MemoryHelper.ToNativeArray<MeshAnimationAttachment, AiAnimMesh>(m_meshAttachments.ToArray(), true);
+
+            {
+                AiString[] stringArray = m_textureCoordinateNames.Select(n => new AiString(n ?? "UV")).ToArray();
+
+                int sizeofNative = MemoryHelper.SizeOf<AiString>();
+
+                //If the pointer is a void** we need to step by the pointer size, otherwise it's just a void* and step by the type size.
+                int stride = IntPtr.Size;
+                IntPtr nativeArray = MemoryHelper.AllocateMemory(stringArray.Length * IntPtr.Size);
+
+                for (int i = 0; i < stringArray.Length; i++)
+                {
+                    IntPtr currPos = MemoryHelper.AddIntPtr(nativeArray, stride * i);
+
+                    AiString stringValue = stringArray[i];
+                    IntPtr ptr = MemoryHelper.AllocateMemory(sizeofNative);
+
+                    MemoryHelper.Write<AiString>(ptr, stringValue);
+
+                    MemoryHelper.Write<IntPtr>(currPos, ptr);
+                }
+                nativeValue.TextureCoordNames = nativeArray;
+            }
         }
 
         /// <summary>
@@ -869,6 +908,12 @@ namespace Assimp
             //Attachment meshes
             if(aiMesh.NumAnimMeshes > 0 && aiMesh.AnimMeshes != IntPtr.Zero)
                 MemoryHelper.FreeNativeArray<AiAnimMesh>(aiMesh.AnimMeshes, (int) aiMesh.NumAnimMeshes, MeshAnimationAttachment.FreeNative, true);
+
+            MemoryHelper.FreeNativeArray<AiString>(aiMesh.TextureCoordNames, AiDefines.AI_MAX_NUMBER_OF_TEXTURECOORDS, (IntPtr nativePtr, bool freeNative) =>
+            {
+                if (freeNative)
+                    MemoryHelper.FreeMemory(nativePtr);
+            }, true);
 
             if(freeNative)
                 MemoryHelper.FreeMemory(nativeValue);

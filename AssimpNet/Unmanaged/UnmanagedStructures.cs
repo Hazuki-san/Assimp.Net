@@ -324,7 +324,7 @@ namespace Assimp.Unmanaged
         /// <summary>
         /// aiString[Max_Value], pointer to array of texture coordinate names. Max_Value is defined as <see cref="AiDefines.AI_MAX_NUMBER_OF_TEXTURECOORDS"/>.
         /// </summary>
-        public IntPtr TextureCoordsNames;
+        public IntPtr TextureCoordNames;
     }
 
     /// <summary>
@@ -1573,5 +1573,5 @@ namespace Assimp.Unmanaged
         }
     }
 
-#endregion
+    #endregion
 }
