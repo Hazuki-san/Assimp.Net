@@ -7,14 +7,6 @@
     <UnityContent Include="$(MSBuildThisFileDirectory)Plugins\AssimpNet\AssimpUnity.cs" Link="UnityPlugin\Plugins\AssimpNet\AssimpUnity.cs" />
     <UnityContent Include="..\License.txt" Link="UnityPlugin\Plugins\AssimpNet\License_AssimpNet.txt" />
 
-    <!-- Linux -->
-    <UnityContent Include="$(MSBuildThisFileDirectory)Plugins\AssimpNet\Native\linux\x86_64\libassimp.so.meta" Link="UnityPlugin\Plugins\AssimpNet\Native\linux\x86_64\libassimp.so.meta" />
-    <UnityContent Include="..\libs\Assimp\linux-x64\libassimp.so" Link="UnityPlugin\Plugins\AssimpNet\Native\linux\x86_64\libassimp.so" />
-    
-    <!-- OSX -->
-    <UnityContent Include="$(MSBuildThisFileDirectory)Plugins\AssimpNet\Native\osx\x86_64\libassimp.bundle.meta" Link="UnityPlugin\Plugins\AssimpNet\Native\osx\x86_64\libassimp.bundle.meta" />
-    <UnityContent Include="..\libs\Assimp\osx-x64\libassimp.dylib" Link="UnityPlugin\Plugins\AssimpNet\Native\osx\x86_64\libassimp.bundle" />
-    
     <!-- Windows -->
     <UnityContent Include="$(MSBuildThisFileDirectory)Plugins\AssimpNet\Native\win\x86_64\assimp.dll.meta" Link="UnityPlugin\Plugins\AssimpNet\Native\win\x86_64\assimp.dll.meta" />
     <UnityContent Include="..\libs\Assimp\win-x64\assimp.dll" Link="UnityPlugin\Plugins\AssimpNet\Native\win\x86_64\assimp.dll" />
