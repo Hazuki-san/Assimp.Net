@@ -1,12 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <TargetFrameworks>netstandard1.3;net35;net4;</TargetFrameworks>
     <LangVersion>latest</LangVersion>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <SignAssembly Condition=" '$(MSBuildRuntimeType)' != 'Core'">true</SignAssembly>
     <AssemblyOriginatorKeyFile Condition=" '$(MSBuildRuntimeType)' != 'Core'">AssimpKey.snk</AssemblyOriginatorKeyFile>
-    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Nicholas Woodfield</Authors>
     <Company />
     <Version>5.0.0-beta1</Version>
@@ -24,8 +25,6 @@
     <RootNamespace>Assimp</RootNamespace>
     <AssemblyName>AssimpNet</AssemblyName>
     <Title>AssimpNet</Title>
-    <TargetFrameworks>net7.0</TargetFrameworks>
-    <GenerateDocumentationFile>False</GenerateDocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Release'">
