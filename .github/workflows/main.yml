@@ -11,38 +11,6 @@ on:
       - releases/*
 
 jobs:
-  Linux_x64:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
-        with:
-          lfs: true
-      - name: Setup .NET Core
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: '3.1.x'
-      - name: Build Project (.Net Standard, Release)
-        run: dotnet build AssimpNet -f netstandard1.3 -c Release
-      - name: Run Tests (.Net Core App, Release)
-        run: dotnet test AssimpNet.Test -f netcoreapp3.1 -c Release
-
-  MacOS_x64:
-    runs-on: macOS-latest
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
-        with:
-          lfs: true
-      - name: Setup .NET Core
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: '3.1.x'
-      - name: Build Project (.Net Standard, Release)
-        run: dotnet build AssimpNet -f netstandard1.3 -c Release
-      - name: Run Tests (.Net Core App, Release)
-        run: dotnet test AssimpNet.Test -f netcoreapp3.1 -c Release
-
   Windows_x64:
     runs-on: windows-latest
     steps:
